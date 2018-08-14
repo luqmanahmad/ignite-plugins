@@ -1,0 +1,7 @@
+com.ig.segmentation.internal.processors.segmentation
+com.ig.segmentation.network.exception
+com.ig.segmentation.network.segment
+com.ig.segmentation.plugin
+com.ig.segmentation.plugin.configuration
+com.ig.segmentation.plugin.provider
+com.ig.segmentation.plugin.segmentation

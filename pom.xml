@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <groupId>com.ig</groupId>
+    <artifactId>ignite-plugins</artifactId>
+    <packaging>pom</packaging>
+    <version>${plugin-version}</version>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <modules>
+        <module>network-segmentation</module>
+    </modules>
+
+    <properties>
+        <plugin-version>0.0.1</plugin-version>
+        <apache-ignite.version>2.6.0</apache-ignite.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.ignite</groupId>
+                <artifactId>ignite-core</artifactId>
+                <version>${apache-ignite.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
