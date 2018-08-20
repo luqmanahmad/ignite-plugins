@@ -36,7 +36,6 @@ mvc clean install -Dapache-ignite.version=2.6.0
 download the binary from bin folder, and put it inside IGNITE_HOME/libs folder. The jar will be picked up 
 automatically when the grid is started.
 
-
 Please see <a href="https://ignite.apache.org/releases/latest/javadoc/org/apache/ignite/configuration/IgniteConfiguration.html#getSegmentationPolicy--">IgniteConfiguration</a> 
 java docs for the following methods:
 
@@ -47,11 +46,11 @@ java docs for the following methods:
 - setSegmentCheckFrequency
 - setSegmentationResolvers
 
-See <a href="https://ignite.apache.org/releases/latest/javadoc/org/apache/ignite/plugin/segmentation/SegmentationPolicy.html">SegmentationPolicy</a>
-java docs as well to understand more about what each segmentation policy is doing behind the scenes.
+When the segement resolver check is failed, the node will perform operation based on the SegmentationPolicy. See <a href="https://ignite.apache.org/releases/latest/javadoc/org/apache/ignite/plugin/segmentation/SegmentationPolicy.html">SegmentationPolicy</a> java docs as well to understand more about what each SegmentationPolicy is doing behind the scenes.
 
-For up to dated java docs, please see the docs folder. I have tried my best to write all the resolvers documentation. 
-in case if something is missing please let me know.
+See <a href="https://apacheignite.readme.io/docs/events">Ignite Local and Remote Events</a> to see how can you subscribe and query <a href="https://ignite.apache.org/releases/latest/javadoc/org/apache/ignite/events/EventType.html#EVT_NODE_SEGMENTED">EventType.EVT_NODE_SEGMENTED</a> event.
+
+For up to dated java docs, please see the docs folder. I have tried my best to write all the resolvers documentation but in-case if something is missing, please let me know.
 
 There are <b>three segement resolvers</b> available:
 
