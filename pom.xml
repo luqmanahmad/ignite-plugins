@@ -6,7 +6,7 @@
     <groupId>com.ig</groupId>
     <artifactId>ignite-plugins</artifactId>
     <packaging>pom</packaging>
-    <version>${plugin-version}</version>
+    <version>${ignite-plugins.version}</version>
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,8 +15,9 @@
     </modules>
 
     <properties>
-        <plugin-version>0.0.1</plugin-version>
+        <ignite-plugins.version>0.0.1</ignite-plugins.version>
         <apache-ignite.version>2.6.0</apache-ignite.version>
+        <junit.version>4.12</junit.version>
     </properties>
 
     <dependencyManagement>
@@ -26,6 +27,14 @@
                 <artifactId>ignite-core</artifactId>
                 <version>${apache-ignite.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

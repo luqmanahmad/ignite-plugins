@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2018.
- */
-
 package com.ig.segmentation.plugin;
 
 import org.apache.ignite.plugin.IgnitePlugin;

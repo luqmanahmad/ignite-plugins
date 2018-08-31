@@ -22,7 +22,7 @@ Segmentation in the grid can happen for various reasons, but in vast majority of
 In this case node does not close connections, but becomes unresponsive, which causes the cluster to remove it 
 from topology after failure detection timeout. 
 
-#### Usage:
+### Usage
 
 Clone the repository and build the jar locally. By default it uses Apache Ignite version 2.6.0 but you can override it 
 during the build by providing a specific version.
@@ -33,10 +33,20 @@ mvc clean install -Dapache-ignite.version=2.6.0
 
 ###### or 
 
-download the binary from bin folder, and put it inside IGNITE_HOME/libs folder. The jar will be picked up 
+Download the binary from bin folder, and put it inside IGNITE_HOME/libs folder. The jar will be picked up 
 automatically when the grid is started.
 
-Please see <a href="https://ignite.apache.org/releases/latest/javadoc/org/apache/ignite/configuration/IgniteConfiguration.html#getSegmentationPolicy--">IgniteConfiguration</a> 
+### How network segment checks are performed?
+
+According to <a href="https://static.javadoc.io/org.apache.ignite/ignite-core/2.6.0/org/apache/ignite/internal/processors/segmentation/GridSegmentationProcessor.html#isValidSegment--">GridSegmentationProcessor</a> 
+class network segment checks are performed in the following cases
+
+- Before discovery SPI start.
+- When other node leaves topology.
+- When other node in topology fails.
+- Periodically (see <a href="https://ignite.apache.org/releases/latest/javadoc/org/apache/ignite/configuration/IgniteConfiguration.html#getSegmentCheckFrequency--">IgniteConfiguration.html#getSegmentCheckFrequency</a>).
+
+Check <a href="https://ignite.apache.org/releases/latest/javadoc/org/apache/ignite/configuration/IgniteConfiguration.html#getSegmentationPolicy--">IgniteConfiguration</a> 
 java docs for the following methods:
 
 - setSegmentationPolicy
@@ -45,23 +55,32 @@ java docs for the following methods:
 - setSegmentationResolveAttempts
 - setSegmentCheckFrequency
 - setSegmentationResolvers
+     
+When the segment resolver check is failed, it will fire  <a href="https://ignite.apache.org/releases/latest/javadoc/org/apache/ignite/events/EventType.html#EVT_NODE_SEGMENTED">EventType.EVT_NODE_SEGMENTED</a> 
+event and the node will perform operation based on the defined SegmentationPolicy. 
+See <a href="https://ignite.apache.org/releases/latest/javadoc/org/apache/ignite/plugin/segmentation/SegmentationPolicy.html">SegmentationPolicy</a> 
+java docs as well to understand more about what each SegmentationPolicy is doing behind the scenes.
 
-When the segement resolver check is failed, the node will perform operation based on the SegmentationPolicy. See <a href="https://ignite.apache.org/releases/latest/javadoc/org/apache/ignite/plugin/segmentation/SegmentationPolicy.html">SegmentationPolicy</a> java docs as well to understand more about what each SegmentationPolicy is doing behind the scenes.
+<a href="https://apacheignite.readme.io/docs/events">Ignite Local and Remote Events</a> to see how can you subscribe and query <a href="https://ignite.apache.org/releases/latest/javadoc/org/apache/ignite/events/EventType.html#EVT_NODE_SEGMENTED">EventType.EVT_NODE_SEGMENTED</a> event.
 
-See <a href="https://apacheignite.readme.io/docs/events">Ignite Local and Remote Events</a> to see how can you subscribe and query <a href="https://ignite.apache.org/releases/latest/javadoc/org/apache/ignite/events/EventType.html#EVT_NODE_SEGMENTED">EventType.EVT_NODE_SEGMENTED</a> event.
+### Network segmentation documentation
 
-For up to dated java docs, please see the docs folder. I have tried my best to write all the resolvers documentation but in-case if something is missing, please let me know.
+Please see the docs folder for all the documentation. I have tried my best to write all the resolvers documentation 
+but in-case if something is missing, please let me know.
+
+### Available resolvers and usage
 
 There are <b>three segement resolvers</b> available:
 
 1) NodeReachabilitySegmentationResolver
 2) SharedFileSystemSegmentationResolver
 3) TcpIpSegmentationResolver 
+ 
+NodeReachabilitySegmentationResolver 
+====================================
 
-#### Example
- 
-NodeReachabilitySegmentationResolver:
- 
+Local node checks connectivity to target node
+
 ```xml
 <bean id="nodeReachability" class="com.ig.segmentation.network.segment.NodeReachabilitySegmentationResolver">
     <property name="localNodeName" value="localhost"/>
@@ -76,6 +95,9 @@ NodeReachabilitySegmentationResolver:
 ```
 
 SharedFileSystemSegmentationResolver
+====================================
+
+Local node read and write a file to shared file system over the network
 
 ```xml
 <bean id="sharedFileSystemResolver" class="com.ig.segmentation.network.segment.SharedFileSystemSegmentationResolver">
@@ -89,7 +111,10 @@ SharedFileSystemSegmentationResolver
 </bean>
 ```
 
-TcpIpSegmentationResolver
+TcpIpSegmentationResolver 
+=========================
+
+Connect and close the connection immediately from local node to target node on a specific port
 
 ```xml
 <bean id="tcpIpResolver" class="com.ig.segmentation.network.segment.TcpIpSegmentationResolver">
