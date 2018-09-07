@@ -12,6 +12,7 @@
 
     <modules>
         <module>network-segmentation</module>
+        <module>security</module>
     </modules>
 
     <properties>
