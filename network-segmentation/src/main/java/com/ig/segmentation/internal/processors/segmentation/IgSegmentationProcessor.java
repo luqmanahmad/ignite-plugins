@@ -61,9 +61,11 @@ public class IgSegmentationProcessor extends GridProcessorAdapter implements Gri
         Map<String, IgniteBiTuple> errors = new TreeMap<String, IgniteBiTuple>();
 
         if (!hasValidSegments(resolvers, errors)) {
+            LT.info(this.log, "Errors occurred during segmentation check");
+
             for (String key : errors.keySet()) {
                 IgniteBiTuple<SegmentationResolver, IgniteCheckedException> tuple = errors.get(key);
-                LT.error(this.log, tuple.get2(), key + tuple.get1());
+                LT.error(this.log, tuple.get2(), key + " " + tuple.get1());
             }
 
             return false;
@@ -111,7 +113,7 @@ public class IgSegmentationProcessor extends GridProcessorAdapter implements Gri
 
             // invalid segment
             if (passAllSegmentationResolvers() && !validSegment)
-                return false;
+                break;
         }
 
         if (isLogDebugModeEnabled())
