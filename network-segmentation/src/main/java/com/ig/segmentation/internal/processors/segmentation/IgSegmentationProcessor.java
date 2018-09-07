@@ -39,10 +39,14 @@ public class IgSegmentationProcessor extends GridProcessorAdapter implements Gri
     private static final String NO_RESOLVERS_MSG = "No segment resolvers found in ignite configuration. " +
             "For more information see org.apache.ignite.configuration.IgniteConfiguration.setSegmentationResolvers";
 
+    /**
+     * @param ctx Kernal context.
+     */
     public IgSegmentationProcessor(GridKernalContext ctx) {
         super(ctx);
     }
 
+    /** {@inheritDoc} */
     public boolean isValidSegment() {
         List<SegmentationResolver> resolvers = getSegmentationResolvers();
 
@@ -82,22 +86,22 @@ public class IgSegmentationProcessor extends GridProcessorAdapter implements Gri
         for (SegmentationResolver resolver : resolvers) {
             String resolverName = U.getSimpleName(resolver.getClass());
 
-            for (int i = 0; i < getIgniteConfiguration().getSegmentationResolveAttempts(); i++) {
+            for (int i = 1; i <= getIgniteConfiguration().getSegmentationResolveAttempts(); i++) {
                 try {
                     if (isLogDebugModeEnabled())
-                        this.log.debug(String.format(SEG_RESOLVER_START_MSG, resolverName, (i + 1)));
+                        this.log.debug( String.format(SEG_RESOLVER_START_MSG, resolverName, i) );
 
                     validSegment = resolver.isValidSegment();
 
                     if (isLogDebugModeEnabled())
-                        this.log.debug(String.format(SEG_RESOLVER_END_MSG, resolverName, (i + 1), validSegment));
+                        this.log.debug( String.format(SEG_RESOLVER_END_MSG, resolverName, i, validSegment) );
                 }
                 catch (IgniteCheckedException exception) {
-                    errors.put(String.format(SEG_RESOLVER_ERROR_MSG, resolverName, (i + 1), exception.getMessage())
-                            , F.t(resolver, exception));
+                    String errorMessage = String.format(SEG_RESOLVER_ERROR_MSG, resolverName, i, exception.getMessage());
+                    errors.put(errorMessage, F.t(resolver, exception));
 
                     if (isLogDebugModeEnabled())
-                        this.log.debug(String.format(SEG_RESOLVER_ERROR_MSG, resolverName, (i + 1), exception.getMessage()));
+                        this.log.debug(errorMessage);
                 }
             }
 

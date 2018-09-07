@@ -23,6 +23,9 @@ import com.ig.segmentation.plugin.IgSegmentationPluginImpl;
 import com.ig.segmentation.plugin.configuration.SegmentationPluginConfiguration;
 import com.ig.segmentation.plugin.IgSegmentationPlugin;
 
+/**
+ * Network segmentation plugin provider implementations
+ */
 public class SegmentationPluginProvider implements PluginProvider<SegmentationPluginConfiguration> {
 
     private static final String PLUGIN_NAME = "IG_NS_PLUGIN";
@@ -32,29 +35,35 @@ public class SegmentationPluginProvider implements PluginProvider<SegmentationPl
     private SegmentationPluginConfiguration pluginConfiguration;
     private IgSegmentationPlugin plugin;
 
+    /** {@inheritDoc} */
     public String name() {
         return PLUGIN_NAME;
     }
 
+    /** {@inheritDoc} */
     public String version() {
         return VERSION;
     }
 
+    /** {@inheritDoc} */
     public String copyright() {
         return COPYRIGHT;
     }
 
     @SuppressWarnings("unchecked")
+    /** {@inheritDoc} */
     public <T extends IgnitePlugin> T plugin() {
         return (T) plugin;
     }
 
+    /** {@inheritDoc} */
     public void initExtensions(PluginContext ctx, ExtensionRegistry registry) {
         this.initPluginConfiguration(ctx);
     }
 
     @Nullable
     @SuppressWarnings("unchecked")
+    /** {@inheritDoc} */
     public <T> T createComponent(PluginContext ctx, Class<T> cls) {
 
         if (cls.equals(GridSegmentationProcessor.class))
@@ -68,35 +77,43 @@ public class SegmentationPluginProvider implements PluginProvider<SegmentationPl
         return null;
     }
 
+    /** {@inheritDoc} */
     public CachePluginProvider createCacheProvider(CachePluginContext ctx) {
         return null;
     }
 
+    /** {@inheritDoc} */
     public void start(PluginContext ctx) throws IgniteCheckedException {
 
     }
 
+    /** {@inheritDoc} */
     public void stop(boolean cancel) throws IgniteCheckedException {
 
     }
 
+    /** {@inheritDoc} */
     public void onIgniteStart() throws IgniteCheckedException {
 
     }
 
+    /** {@inheritDoc} */
     public void onIgniteStop(boolean cancel) {
 
     }
 
     @Nullable
+    /** {@inheritDoc} */
     public Serializable provideDiscoveryData(UUID nodeId) {
         return null;
     }
 
+    /** {@inheritDoc} */
     public void receiveDiscoveryData(UUID nodeId, Serializable data) {
 
     }
 
+    /** {@inheritDoc} */
     public void validateNewNode(ClusterNode node) throws PluginValidationException {
 
     }

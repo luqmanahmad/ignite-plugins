@@ -29,10 +29,7 @@ public class SharedFileSystemSegmentationResolver implements IgSegmentationResol
     private static final String FOLDER_PATH_DEC_MSG = "folderPath [Use setFolderPath() method to set the property]";
     private static final String FOLDER_PATH_ERROR_MSG = "Unable to resolve folder path. [%s]";
 
-    /**
-     * @return true if the segment is valid else false
-     * @throws IgSegmentationException if an error occurred
-     */
+    /** {@inheritDoc} */
     public boolean isValidSegment() throws IgSegmentationException {
         if (sharedFolder == null) {
             sharedFolder = new File(getFolderPathURI());

@@ -6,7 +6,7 @@
     <parent>
         <artifactId>ignite-plugins</artifactId>
         <groupId>com.ig</groupId>
-        <version>${plugin-version}</version>
+        <version>${ignite-plugins.version}</version>
     </parent>
 
     <artifactId>network-segmentation</artifactId>
@@ -18,6 +18,12 @@
         <dependency>
             <groupId>org.apache.ignite</groupId>
             <artifactId>ignite-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

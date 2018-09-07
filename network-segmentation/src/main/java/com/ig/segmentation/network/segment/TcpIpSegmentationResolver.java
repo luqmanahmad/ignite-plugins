@@ -3,6 +3,7 @@ package com.ig.segmentation.network.segment;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -20,7 +21,6 @@ import com.ig.segmentation.plugin.segmentation.IgSegmentationResolver;
  *
  * <p>
  * See example 1 on this url for more information
- *
  * </p>
  *
  * https://www.programcreek.com/java-api-examples/?class=java.net.Socket&method=connect
@@ -48,6 +48,7 @@ public class TcpIpSegmentationResolver implements IgSegmentationResolver {
 
     private boolean initialized = false;
 
+    /** {@inheritDoc} */
     public boolean isValidSegment() throws IgSegmentationException
     {
         if (!initialized)
@@ -168,9 +169,9 @@ public class TcpIpSegmentationResolver implements IgSegmentationResolver {
      *
      * @param localNodeName Local host node name
      * @return {@code this} for chaining.
-     * @throws IgniteCheckedException
+     * @throws IgSegmentationException
      */
-    public TcpIpSegmentationResolver setLocalNodeName(String localNodeName) throws IgniteCheckedException {
+    public TcpIpSegmentationResolver setLocalNodeName(String localNodeName) throws IgSegmentationException {
         A.notNull(localNodeName, "localNodeName");
 
         this.localNodeAddress = getInetAddressByName(localNodeName);

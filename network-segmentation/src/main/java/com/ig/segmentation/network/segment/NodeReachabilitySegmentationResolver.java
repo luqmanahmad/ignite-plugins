@@ -35,10 +35,7 @@ public class NodeReachabilitySegmentationResolver implements IgSegmentationResol
     private InetAddress localNodeAddress;
     private NetworkInterface localNodeNetworkInterface;
 
-    /**
-     * @return true if the segment is valid else false
-     * @throws IgSegmentationException if an error occurred
-     */
+    /** {@inheritDoc} */
     public boolean isValidSegment() throws IgSegmentationException {
         if (!initialized)
             this.validateProperties();
@@ -106,9 +103,9 @@ public class NodeReachabilitySegmentationResolver implements IgSegmentationResol
      *
      * @param localNodeName Local host node name
      * @return {@code this} for chaining.
-     * @throws IgniteCheckedException
+     * @throws IgSegmentationException
      */
-    public NodeReachabilitySegmentationResolver setLocalNodeName(String localNodeName) throws IgniteCheckedException {
+    public NodeReachabilitySegmentationResolver setLocalNodeName(String localNodeName) throws IgSegmentationException {
         A.notNull(localNodeName, "localNodeName");
 
         this.localNodeAddress = getInetAddressByName(localNodeName);
