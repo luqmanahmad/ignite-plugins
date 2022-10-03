@@ -16,9 +16,21 @@
 
     <properties>
         <ignite-plugins.version>0.0.1</ignite-plugins.version>
-        <apache-ignite.version>2.6.0</apache-ignite.version>
+        <apache-ignite.version>2.13.0</apache-ignite.version>
         <junit.version>4.12</junit.version>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.8.0</version>
+              <configuration>
+                <release>11</release>
+              </configuration>
+          </plugin>
+      </plugins>
+    </build>
 
     <dependencyManagement>
         <dependencies>

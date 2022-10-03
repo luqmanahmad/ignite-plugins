@@ -1,9 +1,7 @@
 package com.ig.segmentation.internal.processors.segmentation;
 
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
+import com.ig.segmentation.network.segment.ClusterQuorumResolver;
+import com.ig.segmentation.plugin.IgSegmentationPlugin;
 import org.apache.ignite.IgniteCheckedException;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.internal.GridKernalContext;
@@ -15,7 +13,9 @@ import org.apache.ignite.internal.util.typedef.internal.U;
 import org.apache.ignite.lang.IgniteBiTuple;
 import org.apache.ignite.plugin.segmentation.SegmentationResolver;
 
-import com.ig.segmentation.plugin.IgSegmentationPlugin;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This class defines {@link GridSegmentationProcessor} implementation which can be replaced with
@@ -91,7 +91,9 @@ public class IgSegmentationProcessor extends GridProcessorAdapter implements Gri
                     if (isLogDebugModeEnabled())
                         this.log.debug( String.format(SEG_RESOLVER_START_MSG, resolverName, i) );
 
-                    validSegment = resolver.isValidSegment();
+                    if (resolver instanceof ClusterQuorumResolver)
+                        validSegment = ((ClusterQuorumResolver) resolver).isQuorum(this.ctx);
+                    else validSegment = resolver.isValidSegment();
 
                     if (isLogDebugModeEnabled())
                         this.log.debug( String.format(SEG_RESOLVER_END_MSG, resolverName, i, validSegment) );
